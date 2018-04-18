@@ -6043,7 +6043,7 @@
 /turf/simulated/wall/prepainted,
 /area/medical/chemistry)
 "aqS" = (
-/obj/machinery/door/airlock/glass_medical{
+/obj/machinery/door/airlock/glass/medical{
 	name = "Chemistry Laboratory";
 	req_access = list(33)
 	},
@@ -10938,7 +10938,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/glass_sol{
+/obj/machinery/door/airlock/glass/sol{
 	name = "Diplomatic Quarters"
 	},
 /obj/machinery/door/firedoor,
@@ -16306,7 +16306,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/door/airlock/glass_research{
+/obj/machinery/door/airlock/glass/research{
 	name = "Research Suites";
 	req_access = "";
 	req_one_access = list(47,81)
@@ -17430,7 +17430,7 @@
 /area/medical/surgery)
 "cUb" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/glass_research{
+/obj/machinery/door/airlock/glass/research{
 	name = "Fabricator Laboratory";
 	req_access = list(7)
 	},
@@ -19324,7 +19324,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/glass_medical{
+/obj/machinery/door/airlock/glass/medical{
 	name = "Equipment Storage";
 	req_access = list(5)
 	},
@@ -20122,7 +20122,7 @@
 	opacity = 0
 	},
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/glass_medical{
+/obj/machinery/door/airlock/glass/medical{
 	name = "Auxiliary Entrance";
 	req_access = list(5)
 	},
@@ -20140,7 +20140,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/machinery/door/airlock/glass_medical{
+/obj/machinery/door/airlock/glass/medical{
 	id_tag = "TreatmentCenter";
 	name = "Infirmary Wing";
 	req_access = list(5)
@@ -22178,7 +22178,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 4
 	},
-/obj/machinery/door/airlock/glass_medical{
+/obj/machinery/door/airlock/glass/medical{
 	id_tag = "TreatmentCenter";
 	name = "Infirmary Wing";
 	req_access = list(5)
@@ -22448,7 +22448,7 @@
 /turf/simulated/floor/tiled/freezer,
 /area/crew_quarters/diplomat)
 "kHb" = (
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Charging Bay";
 	req_access = list(82);
 	req_one_access = newlist()
@@ -22737,7 +22737,7 @@
 /turf/simulated/floor/tiled,
 /area/assembly/chargebay)
 "ldb" = (
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Robotics Laboratory";
 	req_access = list(82);
 	req_one_access = newlist()
@@ -23329,7 +23329,7 @@
 /turf/simulated/wall/prepainted,
 /area/assembly/robotics_surgery)
 "mcb" = (
-/obj/machinery/door/airlock/glass_medical{
+/obj/machinery/door/airlock/glass/medical{
 	name = "Infirmary Reception";
 	req_access = list(5)
 	},
@@ -25470,7 +25470,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/glass_research{
+/obj/machinery/door/airlock/glass/research{
 	name = "Xenoflora Laboratory";
 	req_access = list(55)
 	},
@@ -26887,7 +26887,7 @@
 /turf/simulated/floor/tiled/white,
 /area/rnd/xenobiology/xenoflora)
 "smb" = (
-/obj/machinery/door/airlock/glass_research{
+/obj/machinery/door/airlock/glass/research{
 	name = "Xenoflora Laboratory";
 	req_access = list(55)
 	},

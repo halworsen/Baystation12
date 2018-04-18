@@ -13390,7 +13390,7 @@
 	},
 /area/centcom/holding)
 "aDD" = (
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	name = "Holding Cell";
 	req_access = list(2)
 	},
@@ -15184,7 +15184,7 @@
 /turf/unsimulated/wall,
 /area/centcom/holding)
 "aHA" = (
-/obj/machinery/door/airlock/glass_medical{
+/obj/machinery/door/airlock/glass/medical{
 	name = "Arrivals Medbay"
 	},
 /turf/unsimulated/floor{
@@ -16317,7 +16317,7 @@
 	},
 /area/tdome/tdomeobserve)
 "aKr" = (
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	name = "Airlock";
 	req_access = list(150)
 	},
@@ -18705,7 +18705,7 @@
 /turf/simulated/floor/tiled,
 /area/merchant_station)
 "aPX" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	name = "Office";
 	req_access = list(201)
 	},

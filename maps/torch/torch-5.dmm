@@ -2977,7 +2977,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/bridge)
 "ho" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	id_tag = "starboardbridgedoor";
 	name = "Bridge";
 	req_access = list(19);
@@ -5163,7 +5163,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 4
 	},
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	id_tag = null;
 	name = "Aquila Dock";
 	req_access = list(78);
@@ -5878,7 +5878,7 @@
 /turf/simulated/floor/plating,
 /area/bridge)
 "ng" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	id_tag = "starboardbridgeaccess";
 	name = "Bridge Access";
 	req_one_access = list(19,80);
@@ -7207,7 +7207,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/bridge)
 "qg" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	id_tag = "starboardbridgeaccess";
 	name = "Bridge Access";
 	req_one_access = list(19,80);
@@ -7268,7 +7268,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/aux_eva)
 "qj" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	id_tag = "portbridgedoor";
 	name = "Bridge";
 	req_access = list(19);
@@ -13601,7 +13601,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/crew_quarters/heads/office/sea)
 "Og" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	id_tag = "portbridgeaccess";
 	name = "Bridge Access";
 	req_one_access = list(19,80);
@@ -13745,7 +13745,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/crew_quarters/heads/office/sea)
 "Pg" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	id_tag = "portbridgeaccess";
 	name = "Bridge Access";
 	req_one_access = list(19,80);
@@ -13806,7 +13806,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/aquila_hangar/start)
 "Qc" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	name = "Auxiliary E.V.A.";
 	req_access = list(18);
 	secured_wires = 1

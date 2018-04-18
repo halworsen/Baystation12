@@ -5022,7 +5022,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "SMES";
 	req_access = list(11)
 	},
@@ -6021,7 +6021,7 @@
 /turf/simulated/floor/plating,
 /area/engineering/storage)
 "mG" = (
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Monitoring Room";
 	req_access = list(10);
 	req_one_access = newlist()
@@ -6047,7 +6047,7 @@
 	d2 = 2;
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Engine Access";
 	req_access = list(11)
 	},
@@ -6601,7 +6601,7 @@
 /turf/simulated/floor/tiled,
 /area/shuttle/escape_pod10/station)
 "om" = (
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Engineering Storage";
 	req_one_access = list(11,24)
 	},
@@ -7158,7 +7158,7 @@
 /area/engineering/hallway)
 "pP" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Engine Control Room";
 	req_access = list(11)
 	},
@@ -7358,7 +7358,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Engineering Bay";
 	req_one_access = list(10)
 	},
@@ -7588,7 +7588,7 @@
 /turf/simulated/floor/tiled,
 /area/engineering/locker_room)
 "qI" = (
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Engineering Hallway";
 	req_one_access = list(10)
 	},
@@ -8192,7 +8192,7 @@
 /turf/simulated/floor/tiled,
 /area/engineering/hallway)
 "sg" = (
-/obj/machinery/door/airlock/glass_engineering{
+/obj/machinery/door/airlock/glass/engineering{
 	name = "Engineering EVA Storage";
 	req_access = list(11);
 	req_one_access = newlist()
@@ -8508,7 +8508,7 @@
 /area/engineering/atmos)
 "sX" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/glass_atmos{
+/obj/machinery/door/airlock/glass/atmos{
 	name = "Atmospherics";
 	req_access = list(24)
 	},

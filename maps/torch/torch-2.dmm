@@ -4881,7 +4881,7 @@
 /turf/simulated/floor/tiled,
 /area/security/brig)
 "km" = (
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	id_tag = "prisonentry";
 	name = "Brig Entry";
 	req_access = list(2)
@@ -4904,7 +4904,7 @@
 /turf/simulated/floor/tiled,
 /area/hydroponics)
 "ko" = (
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	id_tag = "prisonexit";
 	name = "Brig Exit";
 	req_access = list(2)
@@ -6621,7 +6621,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	name = "E.V.A. Storage";
 	req_one_access = list(18)
 	},
@@ -7038,7 +7038,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/ai_monitored/storage/eva)
 "oG" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	name = "E.V.A. Cycler Access";
 	req_one_access = list(18)
 	},
@@ -7984,7 +7984,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	id_tag = null;
 	name = "Brig Wing";
 	req_access = list(2);
@@ -8000,7 +8000,7 @@
 /obj/machinery/computer/guestpass{
 	pixel_x = 32
 	},
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	id_tag = null;
 	name = "Brig Wing";
 	req_access = list(2);
@@ -8697,7 +8697,7 @@
 	icon_state = "1-4"
 	},
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	name = "E.V.A.";
 	req_one_access = list(18);
 	secured_wires = 1
@@ -9511,7 +9511,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	id_tag = "BrigFoyer";
 	name = "Security Wing";
 	req_access = newlist();
@@ -9676,7 +9676,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 4
 	},
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	id_tag = "detdoor";
 	name = "Equipment Storage";
 	req_access = list(1)
@@ -10389,7 +10389,7 @@
 /area/hallway/primary/thirddeck/aft)
 "ua" = (
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	id_tag = "BrigFoyer";
 	name = "Security Wing";
 	req_access = newlist();
@@ -10859,7 +10859,7 @@
 /turf/simulated/floor/plating,
 /area/security/range)
 "vb" = (
-/obj/machinery/door/airlock/glass_security{
+/obj/machinery/door/airlock/glass/security{
 	name = "Firing Range";
 	req_access = list(80)
 	},
@@ -11119,7 +11119,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 4
 	},
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	name = "E.V.A. Miscellaneous Suit Storage";
 	req_one_access = list(18)
 	},
@@ -11642,7 +11642,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/ai_monitored/storage/eva)
 "wH" = (
-/obj/machinery/door/airlock/glass_command{
+/obj/machinery/door/airlock/glass/command{
 	name = "E.V.A. Suit Storage";
 	req_one_access = list(18)
 	},

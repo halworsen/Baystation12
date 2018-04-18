@@ -52,6 +52,21 @@
 	var/datum/wifi/receiver/button/door/wifi_receiver
 	var/obj/item/weapon/airlock_brace/brace = null
 
+	//Airlock 2.0 Aesthetics Properties
+	//The variables below determine what color the airlock and decorative stripes will be -Cakey
+	name = "Airlock"
+	var/door_type = "standard"
+
+	var/door_color = null
+	var/stripe_color = null
+	var/symbol_color = null
+
+	var/image/color_overlay = null
+	var/image/stripe_overlay = null
+	var/image/symbol_overlay = null
+
+	dir = 2
+
 /obj/machinery/door/airlock/attack_generic(var/mob/user, var/damage)
 	if(stat & (BROKEN|NOPOWER))
 		if(damage >= 10)
@@ -71,35 +86,119 @@
 		return get_material_by_name(mineral)
 	return get_material_by_name(DEFAULT_WALL_MATERIAL)
 
+//regular airlock presets
+
 /obj/machinery/door/airlock/command
-	name = "Airlock"
-	icon = 'icons/obj/doors/Doorcom.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_com
+	door_color = COLOR_NAVY_BLUE
+	stripe_color = COLOR_BLUE
 
 /obj/machinery/door/airlock/security
-	name = "Airlock"
-	icon = 'icons/obj/doors/Doorsec.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_sec
+	door_color = COLOR_RED
+	stripe_color = COLOR_YELLOW
 
 /obj/machinery/door/airlock/engineering
-	name = "Airlock"
-	icon = 'icons/obj/doors/Dooreng.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_eng
+	name = "Maintenance Hatch"
+	door_color = COLOR_YELLOW
+	stripe_color = COLOR_RED
 
 /obj/machinery/door/airlock/medical
-	name = "Airlock"
-	icon = 'icons/obj/doors/Doormed.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_med
+	door_color = COLOR_WHITE
+	stripe_color = COLOR_DEEP_SKY_BLUE
 
 /obj/machinery/door/airlock/virology
-	name = "Airlock"
-	icon = 'icons/obj/doors/Doorviro.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_viro
+	door_color = COLOR_WHITE
+	stripe_color = COLOR_GREEN
+
+/obj/machinery/door/airlock/mining
+	name = "Mining Airlock"
+	door_color = COLOR_BROWN
+	stripe_color = COLOR_BROWN
+
+/obj/machinery/door/airlock/atmos
+	door_color = COLOR_YELLOW
+	stripe_color = COLOR_CYAN
+
+/obj/machinery/door/airlock/research
+	door_color = COLOR_WHITE
+	stripe_color = COLOR_RED
+
+/obj/machinery/door/airlock/science
+	door_color = COLOR_WHITE
+	stripe_color = COLOR_VIOLET
+
+/obj/machinery/door/airlock/sol
+	door_color = COLOR_BLUE
+	stripe_color = COLOR_YELLOW
 
 /obj/machinery/door/airlock/maintenance
 	name = "Maintenance Access"
-	icon = 'icons/obj/doors/Doormaint.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_mai
+	stripe_color = COLOR_YELLOW
+
+/obj/machinery/door/airlock/freezer
+	name = "Freezer Airlock"
+	stripe_color = COLOR_WHITE
+
+//Glass airlock presets
+
+/obj/machinery/door/airlock/glass
+	name = "Glass Airlock"
+	icon = 'icons/obj/doors/Doorglass.dmi'
+	hitsound = 'sound/effects/Glasshit.ogg'
+	maxhealth = 300
+	explosion_resistance = 5
+	opacity = 0
+	glass = 1
+
+/obj/machinery/door/airlock/glass/command
+	door_color = COLOR_NAVY_BLUE
+	stripe_color = COLOR_BLUE
+
+/obj/machinery/door/airlock/glass/security
+	door_color = COLOR_RED
+	stripe_color = COLOR_YELLOW
+
+/obj/machinery/door/airlock/glass/engineering
+	door_color = COLOR_YELLOW
+	stripe_color = COLOR_RED
+
+/obj/machinery/door/airlock/glass/medical
+	door_color = COLOR_WHITE
+	stripe_color = COLOR_DEEP_SKY_BLUE
+
+/obj/machinery/door/airlock/glass/virology
+	door_color = COLOR_WHITE
+	stripe_color = COLOR_GREEN
+
+/obj/machinery/door/airlock/glass/mining
+	name = "Mining Airlock"
+	door_color = COLOR_BROWN
+	stripe_color = COLOR_BROWN
+
+/obj/machinery/door/airlock/glass/atmos
+	door_color = COLOR_YELLOW
+	stripe_color = COLOR_CYAN
+
+/obj/machinery/door/airlock/glass/research
+	door_color = COLOR_WHITE
+	stripe_color = COLOR_RED
+
+/obj/machinery/door/airlock/glass/science
+	door_color = COLOR_WHITE
+	stripe_color = COLOR_VIOLET
+
+/obj/machinery/door/airlock/glass/sol
+	door_color = COLOR_BLUE
+	stripe_color = COLOR_YELLOW
+
+/obj/machinery/door/airlock/glass/maintenance
+	name = "Maintenance Access"
+	stripe_color = COLOR_YELLOW
+
+/obj/machinery/door/airlock/glass/freezer
+	name = "Freezer Airlock"
+	stripe_color = COLOR_WHITE
+
+//Old door presets to be removed
 
 /obj/machinery/door/airlock/external
 	name = "External Airlock"
@@ -120,20 +219,6 @@
 	locked = 1
 	opacity = 0
 
-/obj/machinery/door/airlock/sol
-	name = "Airlock"
-	icon = 'icons/obj/doors/Doorsol.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_sol
-
-/obj/machinery/door/airlock/glass
-	name = "Glass Airlock"
-	icon = 'icons/obj/doors/Doorglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	glass = 1
-
 /obj/machinery/door/airlock/centcom
 	name = "Airlock"
 	icon = 'icons/obj/doors/Doorele.dmi'
@@ -150,12 +235,6 @@
 /obj/machinery/door/airlock/vault/bolted
 	icon_state = "door_locked"
 	locked = 1
-
-/obj/machinery/door/airlock/freezer
-	name = "Freezer Airlock"
-	icon = 'icons/obj/doors/Doorfreezer.dmi'
-	opacity = 1
-	assembly_type = /obj/structure/door_assembly/door_assembly_fre
 
 /obj/machinery/door/airlock/hatch
 	name = "Airtight Hatch"
@@ -174,16 +253,6 @@
 /obj/machinery/door/airlock/maintenance_hatch/bolted
 	locked = 1
 	icon_state = "door_locked"
-
-/obj/machinery/door/airlock/glass_command
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Doorcomglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_com
-	glass = 1
 
 /obj/machinery/door/airlock/glass_external
 	name = "External Airlock"
@@ -207,102 +276,6 @@
 	density = 0
 	locked = 1
 	opacity = 0
-
-/obj/machinery/door/airlock/glass_engineering
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Doorengglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_eng
-	glass = 1
-
-/obj/machinery/door/airlock/glass_security
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Doorsecglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_sec
-	glass = 1
-
-/obj/machinery/door/airlock/glass_medical
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Doormedglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_med
-	glass = 1
-
-/obj/machinery/door/airlock/glass_virology
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Doorviroglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_viro
-	glass = 1
-
-/obj/machinery/door/airlock/glass_sol
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Doorsolglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_sol
-	glass = 1
-
-/obj/machinery/door/airlock/mining
-	name = "Mining Airlock"
-	icon = 'icons/obj/doors/Doormining.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_min
-
-/obj/machinery/door/airlock/atmos
-	name = "Atmospherics Airlock"
-	icon = 'icons/obj/doors/Dooratmo.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_atmo
-
-/obj/machinery/door/airlock/research
-	name = "Airlock"
-	icon = 'icons/obj/doors/Doorresearch.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_research
-
-/obj/machinery/door/airlock/glass_research
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Doorresearchglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_research
-	glass = 1
-	heat_proof = 1
-
-/obj/machinery/door/airlock/glass_mining
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Doorminingglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_min
-	glass = 1
-
-/obj/machinery/door/airlock/glass_atmos
-	name = "Maintenance Hatch"
-	icon = 'icons/obj/doors/Dooratmoglass.dmi'
-	hitsound = 'sound/effects/Glasshit.ogg'
-	maxhealth = 300
-	explosion_resistance = 5
-	opacity = 0
-	assembly_type = /obj/structure/door_assembly/door_assembly_atmo
-	glass = 1
 
 /obj/machinery/door/airlock/gold
 	name = "Gold Airlock"
@@ -375,11 +348,6 @@
 	name = "Sandstone Airlock"
 	icon = 'icons/obj/doors/Doorsand.dmi'
 	mineral = "sandstone"
-
-/obj/machinery/door/airlock/science
-	name = "Airlock"
-	icon = 'icons/obj/doors/Doorsci.dmi'
-	assembly_type = /obj/structure/door_assembly/door_assembly_science
 
 /obj/machinery/door/airlock/glass_science
 	name = "Glass Airlocks"
@@ -585,6 +553,32 @@ About the new airlock wires panel:
 /obj/machinery/door/airlock/update_icon()
 	set_light(0)
 	if(overlays) overlays.Cut()
+	if(istype(src, /obj/machinery/door/airlock/glass))
+		color_overlay = image("icon" = 'icons/obj/doors/doorglass_color.dmi', "icon_state" = "[icon_state]")
+		stripe_overlay = image("icon" = 'icons/obj/doors/doorglass_stripe.dmi', "icon_state" = "[icon_state]")
+	else
+		color_overlay = image("icon" = 'icons/obj/doors/doorint_color.dmi', "icon_state" = "[icon_state]")
+		stripe_overlay = image("icon" = 'icons/obj/doors/doorint_stripe.dmi', "icon_state" = "[icon_state]")
+		/*if("external")
+			colorOverlay = image("icon" = 'icons/obj/doors/doorext_color.dmi', "icon_state" = "[icon_state]")
+		if("secure")
+			colorOverlay = image("icon" = 'icons/obj/doors/doorsec_color.dmi', "icon_state" = "[icon_state]")
+		if("mineral")*/
+
+	if(!door_color)
+		color_overlay.alpha = 0
+	else
+		color_overlay.alpha = 122
+		color_overlay.color = door_color
+		overlays += color_overlay //Adds the calculated settings to the overlay.
+
+	if(!stripe_color)
+		stripe_overlay.alpha = 0
+	else
+		stripe_overlay.alpha = 122
+		stripe_overlay.color = stripe_color
+		overlays += stripe_overlay //Adds the calculated settings to the overlay.
+
 	if(density)
 		if(locked && lights && src.arePowerSystemsOn())
 			icon_state = "door_locked"
