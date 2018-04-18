@@ -107,6 +107,8 @@
 			W.update_icon()
 		if(can_join_with(W))
 			dirs += get_dir(src, W)
+	for(var/obj/machinery/door/D in orange(src,1))
+		dirs += get_dir(src,D)
 
 	wall_connections = dirs_to_corner_states(dirs)
 
