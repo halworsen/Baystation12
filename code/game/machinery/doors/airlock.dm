@@ -1,9 +1,19 @@
 #define BOLTS_FINE 0
 #define BOLTS_EXPOSED 1
 #define BOLTS_CUT 2
+
+#define AIRLOCK_CLOSED	1
+#define AIRLOCK_CLOSING	2
+#define AIRLOCK_OPEN	3
+#define AIRLOCK_OPENING	4
+#define AIRLOCK_DENY	5
+#define AIRLOCK_EMAG	6
+
+var/list/airlock_overlays = list()
+
 /obj/machinery/door/airlock
 	name = "airlock"
-	icon = 'icons/obj/doors/Doorint.dmi'
+	icon = 'icons/obj/doors/station/steel.dmi'
 	icon_state = "door_closed"
 	power_channel = ENVIRON
 
@@ -55,16 +65,12 @@
 	//Airlock 2.0 Aesthetics Properties
 	//The variables below determine what color the airlock and decorative stripes will be -Cakey
 	name = "Airlock"
-	var/door_type = "standard"
-
 	var/door_color = null
 	var/stripe_color = null
 	var/symbol_color = null
-
-	var/image/color_overlay = null
-	var/image/stripe_overlay = null
-	var/image/symbol_overlay = null
-
+	var/overlays_file = 'icons/obj/doors/station/overlays.dmi'
+	var/colors_file = 'icons/obj/doors/station/color.dmi'
+	var/stripes_file = 'icons/obj/doors/station/stripe.dmi'
 	dir = 2
 
 /obj/machinery/door/airlock/attack_generic(var/mob/user, var/damage)
@@ -89,17 +95,14 @@
 //regular airlock presets
 
 /obj/machinery/door/airlock/command
-	door_color = COLOR_NAVY_BLUE
-	stripe_color = COLOR_BLUE
+	door_color = COLOR_COMMAND_BLUE
 
 /obj/machinery/door/airlock/security
-	door_color = COLOR_RED
-	stripe_color = COLOR_YELLOW
+	door_color = COLOR_NT_RED
 
 /obj/machinery/door/airlock/engineering
 	name = "Maintenance Hatch"
-	door_color = COLOR_YELLOW
-	stripe_color = COLOR_RED
+	door_color = COLOR_AMBER
 
 /obj/machinery/door/airlock/medical
 	door_color = COLOR_WHITE
@@ -111,38 +114,36 @@
 
 /obj/machinery/door/airlock/mining
 	name = "Mining Airlock"
-	door_color = COLOR_BROWN
-	stripe_color = COLOR_BROWN
+	door_color = COLOR_PALE_ORANGE
+	stripe_color = COLOR_BEASTY_BROWN
 
 /obj/machinery/door/airlock/atmos
-	door_color = COLOR_YELLOW
+	door_color = COLOR_AMBER
 	stripe_color = COLOR_CYAN
 
 /obj/machinery/door/airlock/research
 	door_color = COLOR_WHITE
-	stripe_color = COLOR_RED
+	stripe_color = COLOR_NT_RED
 
 /obj/machinery/door/airlock/science
 	door_color = COLOR_WHITE
 	stripe_color = COLOR_VIOLET
 
 /obj/machinery/door/airlock/sol
-	door_color = COLOR_BLUE
-	stripe_color = COLOR_YELLOW
+	door_color = COLOR_BLUE_GRAY
 
 /obj/machinery/door/airlock/maintenance
 	name = "Maintenance Access"
-	stripe_color = COLOR_YELLOW
+	stripe_color = COLOR_AMBER
 
 /obj/machinery/door/airlock/freezer
 	name = "Freezer Airlock"
-	stripe_color = COLOR_WHITE
+	door_color = COLOR_WHITE
 
 //Glass airlock presets
 
 /obj/machinery/door/airlock/glass
 	name = "Glass Airlock"
-	icon = 'icons/obj/doors/Doorglass.dmi'
 	hitsound = 'sound/effects/Glasshit.ogg'
 	maxhealth = 300
 	explosion_resistance = 5
@@ -150,15 +151,15 @@
 	glass = 1
 
 /obj/machinery/door/airlock/glass/command
-	door_color = COLOR_NAVY_BLUE
-	stripe_color = COLOR_BLUE
+	door_color = COLOR_COMMAND_BLUE
+	stripe_color = COLOR_SKY_BLUE
 
 /obj/machinery/door/airlock/glass/security
-	door_color = COLOR_RED
-	stripe_color = COLOR_YELLOW
+	door_color = COLOR_NT_RED
+	stripe_color = COLOR_ORANGE
 
 /obj/machinery/door/airlock/glass/engineering
-	door_color = COLOR_YELLOW
+	door_color = COLOR_AMBER
 	stripe_color = COLOR_RED
 
 /obj/machinery/door/airlock/glass/medical
@@ -170,33 +171,31 @@
 	stripe_color = COLOR_GREEN
 
 /obj/machinery/door/airlock/glass/mining
-	name = "Mining Airlock"
-	door_color = COLOR_BROWN
-	stripe_color = COLOR_BROWN
+	door_color = COLOR_PALE_ORANGE
+	stripe_color = COLOR_BEASTY_BROWN
 
 /obj/machinery/door/airlock/glass/atmos
-	door_color = COLOR_YELLOW
+	door_color = COLOR_AMBER
 	stripe_color = COLOR_CYAN
 
 /obj/machinery/door/airlock/glass/research
 	door_color = COLOR_WHITE
-	stripe_color = COLOR_RED
+	stripe_color = COLOR_NT_RED
 
 /obj/machinery/door/airlock/glass/science
 	door_color = COLOR_WHITE
 	stripe_color = COLOR_VIOLET
 
 /obj/machinery/door/airlock/glass/sol
-	door_color = COLOR_BLUE
-	stripe_color = COLOR_YELLOW
+	door_color = COLOR_BLUE_GRAY
+	stripe_color = COLOR_AMBER
+
+/obj/machinery/door/airlock/glass/freezer
+	door_color = COLOR_WHITE
 
 /obj/machinery/door/airlock/glass/maintenance
 	name = "Maintenance Access"
-	stripe_color = COLOR_YELLOW
-
-/obj/machinery/door/airlock/glass/freezer
-	name = "Freezer Airlock"
-	stripe_color = COLOR_WHITE
+	stripe_color = COLOR_AMBER
 
 //Old door presets to be removed
 
@@ -550,7 +549,37 @@ About the new airlock wires panel:
 		return 0
 
 
-/obj/machinery/door/airlock/update_icon()
+/obj/machinery/door/airlock/update_icon(state=0, override=0)
+	if(operating && !override)
+		return
+	switch(state)
+		if(0)
+			if(density)
+				state = AIRLOCK_CLOSED
+			else
+				state = AIRLOCK_OPEN
+			icon_state = ""
+		if(AIRLOCK_OPEN, AIRLOCK_CLOSED)
+			icon_state = ""
+		if(AIRLOCK_DENY, AIRLOCK_OPENING, AIRLOCK_CLOSING, AIRLOCK_EMAG)
+			icon_state = null
+	set_airlock_overlays(state)
+
+/obj/machinery/door/airlock/proc/set_airlock_overlays(state)
+	var/image/frame_overlay
+	var/image/color_overlay
+	var/image/filling_overlay
+	var/image/color_filling_overlay
+	var/image/stripe_overlay
+	var/image/stripe_filling_overlay
+	var/image/lights_overlay
+	var/image/panel_overlay
+	var/image/weld_overlay
+	var/image/damage_overlay
+	var/image/sparks_overlay
+	var/image/brace_overlay
+
+	/*
 	set_light(0)
 	if(overlays) overlays.Cut()
 	if(istype(src, /obj/machinery/door/airlock/glass))
@@ -608,36 +637,206 @@ About the new airlock wires panel:
 	if(brace)
 		brace.update_icon()
 		overlays += image(brace.icon, brace.icon_state)
+	*/
+
+	switch(state)
+		if(AIRLOCK_CLOSED)
+			frame_overlay = get_airlock_overlay("closed", icon)
+			if(glass)
+				filling_overlay = get_airlock_overlay("glass_closed", overlays_file)
+			else
+				filling_overlay = get_airlock_overlay("fill_closed", icon)
+			if(door_color)
+				color_overlay = get_airlock_overlay("closed", colors_file)
+				if(!glass)
+					color_filling_overlay = get_airlock_overlay("fill_closed", colors_file)
+					color_filling_overlay.color = door_color
+				color_overlay.color = door_color
+			if(stripe_color)
+				stripe_overlay = get_airlock_overlay("closed", stripes_file)
+				if(!glass)
+					stripe_filling_overlay = get_airlock_overlay("fill_closed", stripes_file)
+					stripe_filling_overlay.color = stripe_color
+				stripe_overlay.color = stripe_color
+			if(p_open)
+				panel_overlay = get_airlock_overlay("panel_closed", overlays_file)
+			if(welded)
+				weld_overlay = get_airlock_overlay("welded", overlays_file)
+			if(stat & BROKEN)
+				damage_overlay = get_airlock_overlay("sparks_broken", overlays_file)
+			else if(health < maxhealth * 3/4)
+				damage_overlay = get_airlock_overlay("sparks_damaged", overlays_file)
+			if(src.arePowerSystemsOn())
+				if(locked)
+					lights_overlay = get_airlock_overlay("lights_bolts", overlays_file)
+
+		if(AIRLOCK_DENY)
+			if(!src.arePowerSystemsOn())
+				return
+			frame_overlay = get_airlock_overlay("closed", icon)
+			if(glass)
+				filling_overlay = get_airlock_overlay("glass_closed", overlays_file)
+			else
+				filling_overlay = get_airlock_overlay("fill_closed", icon)
+			if(door_color)
+				color_overlay = get_airlock_overlay("closed", colors_file)
+				if(!glass)
+					color_filling_overlay = get_airlock_overlay("fill_closed", colors_file)
+					color_filling_overlay.color = door_color
+				color_overlay.color = door_color
+			if(stripe_color)
+				stripe_overlay = get_airlock_overlay("closed", stripes_file)
+				if(!glass)
+					stripe_filling_overlay = get_airlock_overlay("fill_closed", stripes_file)
+					stripe_filling_overlay.color = stripe_color
+				stripe_overlay.color = stripe_color
+			if(p_open)
+				panel_overlay = get_airlock_overlay("panel_closed", overlays_file)
+			if(stat & BROKEN)
+				damage_overlay = get_airlock_overlay("sparks_broken", overlays_file)
+			else if(health < maxhealth * 3/4)
+				damage_overlay = get_airlock_overlay("sparks_damaged", overlays_file)
+			if(welded)
+				weld_overlay = get_airlock_overlay("welded", overlays_file)
+			lights_overlay = get_airlock_overlay("lights_denied", overlays_file)
+
+		if(AIRLOCK_EMAG)
+			frame_overlay = get_airlock_overlay("closed", icon)
+			sparks_overlay = get_airlock_overlay("sparks", overlays_file)
+			if(glass)
+				filling_overlay = get_airlock_overlay("glass_closed", overlays_file)
+			else
+				filling_overlay = get_airlock_overlay("fill_closed", icon)
+			if(door_color)
+				color_overlay = get_airlock_overlay("closed", colors_file)
+				if(!glass)
+					color_filling_overlay = get_airlock_overlay("fill_closed", colors_file)
+					color_filling_overlay.color = door_color
+				color_overlay.color = door_color
+			if(stripe_color)
+				stripe_overlay = get_airlock_overlay("closed", stripes_file)
+				if(!glass)
+					stripe_filling_overlay = get_airlock_overlay("fill_closed", stripes_file)
+					stripe_filling_overlay.color = stripe_color
+				stripe_overlay.color = stripe_color
+			if(p_open)
+				panel_overlay = get_airlock_overlay("panel_closed", overlays_file)
+			if(stat & BROKEN)
+				damage_overlay = get_airlock_overlay("sparks_broken", overlays_file)
+			else if(health < maxhealth * 3/4)
+				damage_overlay = get_airlock_overlay("sparks_damaged", overlays_file)
+			if(welded)
+				weld_overlay = get_airlock_overlay("welded", overlays_file)
+
+		if(AIRLOCK_CLOSING)
+			frame_overlay = get_airlock_overlay("closing", icon)
+			if(glass)
+				filling_overlay = get_airlock_overlay("glass_closing", overlays_file)
+			else
+				filling_overlay = get_airlock_overlay("fill_closing", icon)
+			if(door_color)
+				color_overlay = get_airlock_overlay("closing", colors_file)
+				if(!glass)
+					color_filling_overlay = get_airlock_overlay("fill_closing", colors_file)
+					color_filling_overlay.color = door_color
+				color_overlay.color = door_color
+			if(stripe_color)
+				stripe_overlay = get_airlock_overlay("closing", stripes_file)
+				if(!glass)
+					stripe_filling_overlay = get_airlock_overlay("fill_closing", stripes_file)
+					stripe_filling_overlay.color = stripe_color
+				stripe_overlay.color = stripe_color
+			if(src.arePowerSystemsOn())
+				lights_overlay = get_airlock_overlay("lights_closing", overlays_file)
+			if(p_open)
+				panel_overlay = get_airlock_overlay("panel_closing", overlays_file)
+
+		if(AIRLOCK_OPEN)
+			frame_overlay = get_airlock_overlay("open", icon)
+			if(glass)
+				filling_overlay = get_airlock_overlay("glass_open", overlays_file)
+			else
+				filling_overlay = get_airlock_overlay("fill_open", icon)
+			if(door_color)
+				color_overlay = get_airlock_overlay("open", colors_file)
+				if(!glass)
+					color_filling_overlay = get_airlock_overlay("fill_open", colors_file)
+					color_filling_overlay.color = door_color
+				color_overlay.color = door_color
+			if(stripe_color)
+				stripe_overlay = get_airlock_overlay("open", stripes_file)
+				if(!glass)
+					stripe_filling_overlay = get_airlock_overlay("fill_open", stripes_file)
+					stripe_filling_overlay.color = stripe_color
+				stripe_overlay.color = stripe_color
+			if(stat & BROKEN)
+				damage_overlay = get_airlock_overlay("sparks_broken", overlays_file)
+			else if(health < maxhealth * 3/4)
+				damage_overlay = get_airlock_overlay("sparks_damaged", overlays_file)
+
+		if(AIRLOCK_OPENING)
+			frame_overlay = get_airlock_overlay("opening", icon)
+			if(glass)
+				filling_overlay = get_airlock_overlay("glass_opening", overlays_file)
+			else
+				filling_overlay = get_airlock_overlay("fill_opening", icon)
+			if(door_color)
+				color_overlay = get_airlock_overlay("opening", colors_file)
+				if(!glass)
+					color_filling_overlay = get_airlock_overlay("fill_opening", colors_file)
+					color_filling_overlay.color = door_color
+				color_overlay.color = door_color
+			if(stripe_color)
+				stripe_overlay = get_airlock_overlay("opening", stripes_file)
+				if(!glass)
+					stripe_filling_overlay = get_airlock_overlay("fill_opening", stripes_file)
+					stripe_filling_overlay.color = stripe_color
+				stripe_overlay.color = stripe_color
+			if(src.arePowerSystemsOn())
+				lights_overlay = get_airlock_overlay("lights_opening", overlays_file)
+			if(p_open)
+				panel_overlay = get_airlock_overlay("panel_opening", overlays_file)
+
+	if(brace)
+		brace.update_icon()
+		brace_overlay += image(brace.icon, brace.icon_state)
+
+
+	overlays.Cut()
+
+	overlays += frame_overlay
+	overlays += color_overlay
+	overlays += filling_overlay
+	overlays += color_filling_overlay
+	overlays += stripe_overlay
+	overlays += stripe_filling_overlay
+	overlays += panel_overlay
+	overlays += weld_overlay
+	overlays += brace_overlay
+	overlays += lights_overlay
+	overlays += sparks_overlay
+	overlays += damage_overlay
+
+/proc/get_airlock_overlay(icon_state, icon_file)
+	var/iconkey = "[icon_state][icon_file]"
+	if(airlock_overlays[iconkey])
+		return airlock_overlays[iconkey]
+	airlock_overlays[iconkey] = image(icon_file, icon_state)
+	return airlock_overlays[iconkey]
 
 /obj/machinery/door/airlock/do_animate(animation)
 	switch(animation)
 		if("opening")
-			if(overlays) overlays.Cut()
-			if(p_open)
-				spawn(2) // The only work around that works. Downside is that the door will be gone for a millisecond.
-					flick("o_door_opening", src)  //can not use flick due to BYOND bug updating overlays right before flicking
-					update_icon()
-			else
-				flick("door_opening", src)//[stat ? "_stat":]
-				update_icon()
+			update_icon(AIRLOCK_OPENING)
 		if("closing")
-			if(overlays) overlays.Cut()
-			if(p_open)
-				spawn(2)
-					flick("o_door_closing", src)
-					update_icon()
-			else
-				flick("door_closing", src)
-				update_icon()
-		if("spark")
-			if(density)
-				flick("door_spark", src)
+			update_icon(AIRLOCK_CLOSING)
 		if("deny")
 			if(density && src.arePowerSystemsOn())
-				flick("door_deny", src)
+				update_icon(AIRLOCK_DENY)
 				if(secured_wires)
 					playsound(src.loc, open_failure_access_denied, 50, 0)
-	return
+				sleep(6)
+				update_icon(AIRLOCK_CLOSED)
 
 /obj/machinery/door/airlock/attack_ai(mob/user as mob)
 	ui_interact(user)
