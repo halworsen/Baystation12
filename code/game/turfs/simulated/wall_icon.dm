@@ -109,6 +109,8 @@
 			dirs += get_dir(src, W)
 	for(var/obj/machinery/door/D in orange(src,1))
 		dirs += get_dir(src,D)
+	for(var/obj/structure/low_wall/W in orange(src, 1))
+		dirs += get_dir(src,W)
 
 	wall_connections = dirs_to_corner_states(dirs)
 
