@@ -98,7 +98,8 @@
 /turf/simulated/wall/proc/update_connections(propagate = 0)
 	if(!material)
 		return
-	var/list/dirs = list()
+	var/list/wall_dirs = list()
+	var/list/other_dirs = list()
 	for(var/turf/simulated/wall/W in orange(src, 1))
 		if(!W.material)
 			continue
@@ -106,11 +107,20 @@
 			W.update_connections()
 			W.update_icon()
 		if(can_join_with(W))
-			dirs += get_dir(src, W)
+			wall_dirs += get_dir(src, W)
 	for(var/obj/machinery/door/D in orange(src,1))
-		dirs += get_dir(src,D)
+		if(propagate)
+			D.update_connections()
+			D.update_icon()
+		other_dirs += get_dir(src, D)
+	for(var/obj/machinery/door/D in orange(src,1))
+		if(propagate)
+			D.update_connections()
+			D.update_icon()
+		other_dirs += get_dir(src, D)
 
-	wall_connections = dirs_to_corner_states(dirs)
+	wall_connections = dirs_to_corner_states(wall_dirs)
+	other_connections = dirs_to_corner_states(other_dirs)
 
 /turf/simulated/wall/proc/can_join_with(var/turf/simulated/wall/W)
 	if(material && W.material && material.icon_base == W.material.icon_base)
