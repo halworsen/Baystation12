@@ -51,7 +51,10 @@
 		return
 
 	for(var/i = 1 to 4)
-		I = image('icons/turf/wall_masks.dmi', "[material.icon_base][wall_connections[i]]", dir = 1<<(i-1))
+		if(other_connections[i] != "0")
+			I = image('icons/turf/wall_masks.dmi', "[material.icon_base]_other[other_connections[i]]", dir = 1<<(i-1))
+		else
+			I = image('icons/turf/wall_masks.dmi', "[material.icon_base][wall_connections[i]]", dir = 1<<(i-1))
 		I.color = base_color
 		overlays += I
 
@@ -113,11 +116,11 @@
 			D.update_connections()
 			D.update_icon()
 		other_dirs += get_dir(src, D)
-	for(var/obj/machinery/door/D in orange(src,1))
+	for(var/obj/structure/low_wall/L in orange(src,1))
 		if(propagate)
-			D.update_connections()
-			D.update_icon()
-		other_dirs += get_dir(src, D)
+			L.update_connections()
+			L.update_icon()
+		other_dirs += get_dir(src, L)
 
 	wall_connections = dirs_to_corner_states(wall_dirs)
 	other_connections = dirs_to_corner_states(other_dirs)
