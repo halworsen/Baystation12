@@ -51,10 +51,7 @@
 		return
 
 	for(var/i = 1 to 4)
-		if(other_connections[i] != "0")
-			I = image('icons/turf/wall_masks.dmi', "[material.icon_base]_other[other_connections[i]]", dir = 1<<(i-1))
-		else
-			I = image('icons/turf/wall_masks.dmi', "[material.icon_base][wall_connections[i]]", dir = 1<<(i-1))
+		I = image('icons/turf/wall_masks.dmi', "[material.icon_base][wall_connections[i]]", dir = 1<<(i-1))
 		I.color = base_color
 		overlays += I
 
@@ -102,7 +99,7 @@
 	if(!material)
 		return
 	var/list/wall_dirs = list()
-	var/list/other_dirs = list()
+
 	for(var/turf/simulated/wall/W in orange(src, 1))
 		if(!W.material)
 			continue
@@ -111,19 +108,25 @@
 			W.update_icon()
 		if(can_join_with(W))
 			wall_dirs += get_dir(src, W)
-	for(var/obj/machinery/door/D in orange(src,1))
-		if(propagate)
-			D.update_connections()
-			D.update_icon()
-		other_dirs += get_dir(src, D)
-	for(var/obj/structure/low_wall/L in orange(src,1))
-		if(propagate)
-			L.update_connections()
-			L.update_icon()
-		other_dirs += get_dir(src, L)
+
+	for(var/direction in GLOB.cardinal)
+		if(direction == NORTH || direction == SOUTH)
+			var/turf/T = get_step(src, direction)
+			var/success = 0
+			for(var/obj/O in T)
+				for(var/b_type in blend_objects)
+					if( istype(O, b_type))
+						success = 1
+
+					if(success)
+						break
+				if(success)
+					break
+
+			if(success)
+				wall_dirs += get_dir( src, T )
 
 	wall_connections = dirs_to_corner_states(wall_dirs)
-	other_connections = dirs_to_corner_states(other_dirs)
 
 /turf/simulated/wall/proc/can_join_with(var/turf/simulated/wall/W)
 	if(material && W.material && material.icon_base == W.material.icon_base)

@@ -13,7 +13,8 @@
 	opacity = 0
 
 	// icon related
-	var/list/connections = list("0", "0", "0", "0")
+	var/list/wall_connections = list("0", "0", "0", "0")
+	var/list/other_connections = list("0", "0", "0", "0")
 
 	// window related
 	var/obj/structure/grille/grille
@@ -21,6 +22,7 @@
 	var/obj/item/stack/material/glass/pane_large
 	var/panes_secured = 0
 	var/window_health = 2 // windows need to have both panes broken to fully shatter. basically 2 health bars
+	var/list/blend_objects = list(/obj/machinery/door) // Objects which to blend with
 
 /obj/structure/low_wall/New(var/new_loc)
 	..(new_loc)
@@ -115,10 +117,14 @@
 /obj/structure/low_wall/update_icon()
 	overlays.Cut()
 
+
+
 	for(var/i = 1 to 4)
-		var/image/I = image('icons/obj/frame.dmi', "frame[connections[i]]", dir = 1<<(i-1))
-		world << "i=[i]: frame icon: frame[connections[i]]"
-		world << "DIR: [1<<(i-1)]"
+		var/image/I
+		if(other_connections[i] != "0")
+			I = image('icons/obj/frame.dmi', "frame_other[other_connections[i]]", dir = 1<<(i-1))
+		else
+			I = image('icons/obj/frame.dmi', "frame[wall_connections[i]]", dir = 1<<(i-1))
 		overlays += I
 
 	/*
@@ -139,17 +145,37 @@
 	return
 
 /obj/structure/low_wall/proc/update_connections(var/propagate = 0)
-	var/list/dirs = list()
-	for(var/turf/simulated/wall/W in orange(src, 1))
-		if(!W.material)
-			continue
-		if(propagate)
-			W.update_connections()
-			W.update_icon()
-		dirs += get_dir(src, W)
-	for(var/obj/machinery/door/D in orange(src, 1))
-		dirs += get_dir(src,D)
-	for(var/obj/structure/low_wall/W in orange(src, 1))
-		dirs += get_dir(src,W)
+	var/list/wall_dirs = list()
+	var/list/other_dirs = list()
 
-	connections = dirs_to_corner_states(dirs)
+	for(var/obj/structure/low_wall/L in orange(src, 1))
+		if(propagate)
+			L.update_connections()
+			L.update_icon()
+			wall_dirs += get_dir(src, L)
+
+	for(var/direction in GLOB.cardinal)
+		var/turf/T = get_step(src, direction)
+		var/success = 0
+
+		if( istype(T, /turf/simulated/wall))
+			success = 1
+			if(propagate)
+				var/turf/simulated/wall/W = get_step(src, direction)
+				W.update_connections()
+
+		for(var/obj/O in T)
+			for(var/b_type in blend_objects)
+				if( istype(O, b_type))
+					success = 1
+
+				if(success)
+					break
+			if(success)
+				break
+
+		if(success)
+			other_dirs += get_dir( src, T )
+
+	wall_connections = dirs_to_corner_states(wall_dirs)
+	other_connections = dirs_to_corner_states(other_dirs)

@@ -550,6 +550,11 @@ About the new airlock wires panel:
 
 
 /obj/machinery/door/airlock/update_icon(state=0, override=0)
+	if(connections[2] == 4 || connections[4] == 4)
+		dir = 2
+	else if(connections[1] == 4 || connections[3] == 4)
+		dir = 4
+
 	if(operating && !override)
 		return
 	switch(state)
@@ -559,10 +564,8 @@ About the new airlock wires panel:
 			else
 				state = AIRLOCK_OPEN
 			icon_state = ""
-		if(AIRLOCK_OPEN, AIRLOCK_CLOSED)
+		if(AIRLOCK_OPEN, AIRLOCK_CLOSED, AIRLOCK_DENY, AIRLOCK_OPENING, AIRLOCK_CLOSING, AIRLOCK_EMAG)
 			icon_state = ""
-		if(AIRLOCK_DENY, AIRLOCK_OPENING, AIRLOCK_CLOSING, AIRLOCK_EMAG)
-			icon_state = null
 	set_airlock_overlays(state)
 
 /obj/machinery/door/airlock/proc/set_airlock_overlays(state)
@@ -638,7 +641,7 @@ About the new airlock wires panel:
 		brace.update_icon()
 		overlays += image(brace.icon, brace.icon_state)
 	*/
-
+	set_light(0)
 	switch(state)
 		if(AIRLOCK_CLOSED)
 			frame_overlay = get_airlock_overlay("closed", icon)
@@ -669,6 +672,7 @@ About the new airlock wires panel:
 			if(src.arePowerSystemsOn())
 				if(locked)
 					lights_overlay = get_airlock_overlay("lights_bolts", overlays_file)
+					set_light(0.25, 0.1, 1, 2, COLOR_RED_LIGHT)
 
 		if(AIRLOCK_DENY)
 			if(!src.arePowerSystemsOn())
@@ -794,6 +798,7 @@ About the new airlock wires panel:
 				stripe_overlay.color = stripe_color
 			if(src.arePowerSystemsOn())
 				lights_overlay = get_airlock_overlay("lights_opening", overlays_file)
+				set_light(0.25, 0.1, 1, 2, COLOR_LIME)
 			if(p_open)
 				panel_overlay = get_airlock_overlay("panel_opening", overlays_file)
 
@@ -816,6 +821,10 @@ About the new airlock wires panel:
 	overlays += lights_overlay
 	overlays += sparks_overlay
 	overlays += damage_overlay
+
+	switch(state)
+		if(AIRLOCK_DENY, AIRLOCK_OPENING, AIRLOCK_CLOSING, AIRLOCK_EMAG)
+			flick(overlays, src)
 
 /proc/get_airlock_overlay(icon_state, icon_file)
 	var/iconkey = "[icon_state][icon_file]"
