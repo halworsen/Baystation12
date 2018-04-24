@@ -23,7 +23,7 @@
 	var/list/other_connections = list("0", "0", "0", "0")
 	var/floor_type = /turf/simulated/floor/plating //turf it leaves after destruction
 	var/paint_color
-	var/list/blend_objects = list(/obj/machinery/door, /obj/structure/low_wall) // Objects which to blend with
+	var/list/blend_objects = list(/obj/machinery/door, /obj/structure/wall_frame) // Objects which to blend with
 
 /turf/simulated/wall/New(var/newloc, var/materialtype, var/rmaterialtype)
 	..(newloc)

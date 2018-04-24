@@ -64,4 +64,4 @@
 #define	PIPE_COLOR_BLACK       "#444444"
 #define	PIPE_COLOR_ORANGE      "#b95a00"
 
-#define COLOR_BLOOD_HUMAN "#a10808"
+#define COLOR_BLOOD_HUMAN	   "#a10808"

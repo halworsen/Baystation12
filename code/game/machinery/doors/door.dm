@@ -30,7 +30,7 @@
 	var/block_air_zones = 1 //If set, air zones cannot merge across the door even when it is opened.
 	var/close_door_at = 0 //When to automatically close the door, if possible
 	var/list/connections = list("0", "0", "0", "0")
-	var/list/blend_objects = list(/obj/machinery/door, /obj/structure/low_wall) // Objects which to blend with
+	var/list/blend_objects = list(/obj/machinery/door, /obj/structure/wall_frame) // Objects which to blend with
 
 	//Multi-tile doors
 	dir = EAST

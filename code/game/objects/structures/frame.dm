@@ -1,7 +1,7 @@
 // Basically see-through walls. Used for windows
 // If nothing has been built on the low wall, you can climb on it
 
-/obj/structure/low_wall
+/obj/structure/wall_frame
 	name = "low wall"
 	desc = "A low wall section which serves as the base of windows, amongst other things."
 	icon = 'icons/obj/frame.dmi'
@@ -24,13 +24,13 @@
 	var/window_health = 2 // windows need to have both panes broken to fully shatter. basically 2 health bars
 	var/list/blend_objects = list(/obj/machinery/door) // Objects which to blend with
 
-/obj/structure/low_wall/New(var/new_loc)
+/obj/structure/wall_frame/New(var/new_loc)
 	..(new_loc)
 
 	update_connections(1)
 	update_icon()
 
-/obj/structure/low_wall/attackby(var/obj/item/weapon/W, var/mob/user)
+/obj/structure/wall_frame/attackby(var/obj/item/weapon/W, var/mob/user)
 	// grille
 	if(istype(W, /obj/item/stack/rods))
 		var/obj/item/stack/rods/R = W
@@ -114,7 +114,7 @@
 
 // icon related
 
-/obj/structure/low_wall/update_icon()
+/obj/structure/wall_frame/update_icon()
 	overlays.Cut()
 
 
@@ -144,11 +144,11 @@
 
 	return
 
-/obj/structure/low_wall/proc/update_connections(var/propagate = 0)
+/obj/structure/wall_frame/proc/update_connections(var/propagate = 0)
 	var/list/wall_dirs = list()
 	var/list/other_dirs = list()
 
-	for(var/obj/structure/low_wall/L in orange(src, 1))
+	for(var/obj/structure/wall_frame/L in orange(src, 1))
 		if(propagate)
 			L.update_connections()
 			L.update_icon()
