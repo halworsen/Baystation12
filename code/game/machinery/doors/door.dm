@@ -470,6 +470,7 @@
 
 /obj/machinery/door/proc/update_connections(var/propagate = 0)
 	var/list/dirs = list()
+
 	for(var/direction in GLOB.cardinal)
 		var/turf/T = get_step(src, direction)
 		var/success = 0
@@ -477,8 +478,9 @@
 		if( istype(T, /turf/simulated/wall))
 			success = 1
 			if(propagate)
-				var/turf/simulated/wall/W = get_step(src, direction)
+				var/turf/simulated/wall/W = T
 				W.update_connections()
+				W.update_icon()
 		else
 			for(var/obj/O in T)
 				for(var/b_type in blend_objects)
