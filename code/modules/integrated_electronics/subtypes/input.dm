@@ -797,7 +797,8 @@
 /obj/item/integrated_circuit/input/teleporter_locator/OnICTopic(href_list, user)
 	if(href_list["tport"])
 		var/output = href_list["tport"] == "random" ? null : locate(href_list["tport"])
-		set_pin_data(IC_OUTPUT, 1, output && weakref(output))
+		set_pin_data(IC_OUTPUT, 1, (output ? weakref(output) : null))
+		push_data()
 		activate_pin(1)
 		return IC_TOPIC_REFRESH
 
