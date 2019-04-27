@@ -462,3 +462,10 @@
 	id = access_merchant
 	desc = "Merchant"
 	access_type = ACCESS_TYPE_NONE
+
+// Not accessible by anyone
+/var/const/access_inaccessible = "ACCESS_INACCESSIBLE"
+/datum/access/inaccessible
+	id = access_inaccessible
+	desc = "Inaccessible"
+	access_type = ACCESS_TYPE_NONE

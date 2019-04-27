@@ -28,6 +28,7 @@ SUBSYSTEM_DEF(supply)
 		"virology_antibodies" = "From uploaded antibody data",
 		"virology_dishes" = "From exported virus dishes",
 		"gep" = "From uploaded good explorer points",
+		"sorting" = "From sorting orders",
 		"total" = "Total" // If you're adding additional point sources, add it here in a new line. Don't forget to put a comma after the old last line.
 	)
 	//virus dishes uniqueness
@@ -82,48 +83,64 @@ SUBSYSTEM_DEF(supply)
 /datum/controller/subsystem/supply/proc/sell()
 	var/list/material_count = list()
 
+	// Check if there's a sorting order event running
+	var/datum/event/sorting_order/event = null
+	for(var/datum/event/E in SSevent.active_events)
+		if(istype(E, /datum/event/sorting_order))
+			event = E
+
 	for(var/area/subarea in shuttle.shuttle_area)
 		for(var/atom/movable/AM in subarea)
 			if(AM.anchored)
 				continue
 			if(istype(AM, /obj/structure/closet/crate/))
 				var/obj/structure/closet/crate/CR = AM
-				callHook("sell_crate", list(CR, subarea))
-				add_points_from_source(CR.points_per_crate, "crate")
-				var/find_slip = 1
 
-				for(var/atom in CR)
-					// Sell manifests
-					var/atom/A = atom
-					if(find_slip && istype(A,/obj/item/weapon/paper/manifest))
-						var/obj/item/weapon/paper/manifest/slip = A
-						if(!slip.is_copy && slip.stamped && slip.stamped.len) //Any stamp works.
-							add_points_from_source(points_per_slip, "manifest")
-							find_slip = 0
-						continue
+				// If the crate comes from the sorting order event, check for labels
+				var/actual_name = splittext(CR.name, " ")[1]
+				if(event && actual_name in event.crate_names)
+					var/list/labels = get_attached_labels(CR)
+					for(var/label in labels)
+						if(label == event.crate_names[actual_name])
+							add_points_from_source(event.points_per_crate, "sorting")
+							break
+				else
+					callHook("sell_crate", list(CR, subarea))
+					add_points_from_source(CR.points_per_crate, "crate")
+					var/find_slip = 1
 
-					// Sell materials
-					if(istype(A, /obj/item/stack/material))
-						var/obj/item/stack/material/P = A
-						if(P.material && P.material.sale_price > 0)
-							material_count[P.material.display_name] += P.get_amount() * P.material.sale_price * P.matter_multiplier
-						if(P.reinf_material && P.reinf_material.sale_price > 0)
-							material_count[P.reinf_material.display_name] += P.get_amount() * P.reinf_material.sale_price * P.matter_multiplier * 0.5
-						continue
+					for(var/atom in CR)
+						// Sell manifests
+						var/atom/A = atom
+						if(find_slip && istype(A,/obj/item/weapon/paper/manifest))
+							var/obj/item/weapon/paper/manifest/slip = A
+							if(!slip.is_copy && slip.stamped && slip.stamped.len) //Any stamp works.
+								add_points_from_source(points_per_slip, "manifest")
+								find_slip = 0
+							continue
 
-					// Must sell ore detector disks in crates
-					if(istype(A, /obj/item/weapon/disk/survey))
-						var/obj/item/weapon/disk/survey/D = A
-						add_points_from_source(round(D.Value() * 0.005), "gep")
+						// Sell materials
+						if(istype(A, /obj/item/stack/material))
+							var/obj/item/stack/material/P = A
+							if(P.material && P.material.sale_price > 0)
+								material_count[P.material.display_name] += P.get_amount() * P.material.sale_price * P.matter_multiplier
+							if(P.reinf_material && P.reinf_material.sale_price > 0)
+								material_count[P.reinf_material.display_name] += P.get_amount() * P.reinf_material.sale_price * P.matter_multiplier * 0.5
+							continue
 
-					// Sell virus dishes.
-					if(istype(A, /obj/item/weapon/virusdish))
-						//Obviously the dish must be unique and never sold before.
-						var/obj/item/weapon/virusdish/dish = A
-						if(dish.analysed && istype(dish.virus2) && dish.virus2.uniqueID)
-							if(!(dish.virus2.uniqueID in sold_virus_strains))
-								add_points_from_source(5, "virology_dishes")
-								sold_virus_strains += dish.virus2.uniqueID
+						// Must sell ore detector disks in crates
+						if(istype(A, /obj/item/weapon/disk/survey))
+							var/obj/item/weapon/disk/survey/D = A
+							add_points_from_source(round(D.Value() * 0.005), "gep")
+
+						// Sell virus dishes.
+						if(istype(A, /obj/item/weapon/virusdish))
+							//Obviously the dish must be unique and never sold before.
+							var/obj/item/weapon/virusdish/dish = A
+							if(dish.analysed && istype(dish.virus2) && dish.virus2.uniqueID)
+								if(!(dish.virus2.uniqueID in sold_virus_strains))
+									add_points_from_source(5, "virology_dishes")
+									sold_virus_strains += dish.virus2.uniqueID
 
 			qdel(AM)
 
