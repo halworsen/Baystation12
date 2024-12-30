@@ -132,7 +132,7 @@
 		if (player_is_antag(player))
 			log_debug("[key_name(player)] is not eligible to become a [role_text]: They are already an antagonist!")
 			continue
-		var/result = can_become_antag_detailed(player)
+		var/result = can_become_antag(player)
 		if (result)
 			log_debug("[key_name(player)] is not eligible to become a [role_text]: [result]")
 			continue
@@ -226,7 +226,7 @@
 	if(GAME_STATE >= RUNLEVEL_GAME && (isghostmind(player) || isnewplayer(player.current)) && !(player in SSticker.antag_pool))
 		log_debug("[player.key] was selected for [role_text] by lottery, but they are a ghost not in the antag pool.")
 		return FALSE
-	var/result = can_become_antag_detailed(player)
+	var/result = can_become_antag(player)
 	if (result)
 		log_debug("[player.key] was selected for [role_text] by lottery, but is not allowed: [result].")
 		return FALSE

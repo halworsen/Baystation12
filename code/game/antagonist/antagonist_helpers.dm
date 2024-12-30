@@ -3,7 +3,7 @@
  * Use strict type comparisons for truthiness values.
  * `ignore_role` will skip restriced job, player age, and player status flag checks.
  */
-/datum/antagonist/proc/can_become_antag_detailed(datum/mind/player, ignore_role)
+/datum/antagonist/proc/can_become_antag(datum/mind/player, ignore_role = 0)
 	if(player.current)
 		if(jobban_isbanned(player.current, id))
 			return "Player is banned from this antagonist role."
@@ -22,10 +22,6 @@
 		if(player.current && (player.current.status_flags & NO_ANTAG) && !isghostmind(player))
 			return "Player's mob has the NO_ANTAG flag set."
 	return FALSE
-
-/// Checks if the given player is able to become an antagonist or not. Simplified version of `can_become_antag_detailed()`.
-/datum/antagonist/proc/can_become_antag(datum/mind/player, ignore_role)
-	return !can_become_antag_detailed(player, ignore_role)
 
 /datum/antagonist/proc/antags_are_dead()
 	for(var/datum/mind/antag in current_antagonists)

@@ -18,7 +18,7 @@
 		log_debug("\The [src] attempted to convert \the [player.current] to [faction], but failed: Player is already an antagonist.")
 		return
 
-	var/result = faction.can_become_antag_detailed(player, TRUE)
+	var/result = faction.can_become_antag(player, TRUE)
 	if(result)
 		to_chat(src, SPAN_WARNING("\The [player.current] cannot be \a [faction.faction_role_text]!"))
 		log_debug("\The [src] attempted to convert \the [player.current] to [faction], but failed: [result]")
